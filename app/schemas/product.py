@@ -3,8 +3,6 @@ from typing import Optional, List, Dict, Any
 from pydantic import BaseModel, Field
 from datetime import datetime
 
-# NEED CATEGORIES
-#     category_id: Optional[int] = None
 class ProductBase(BaseModel):
     sku: str
     name: str
@@ -14,7 +12,6 @@ class ProductBase(BaseModel):
     dimensions: Optional[str] = None  # JSON string
     is_active: bool = True
 
-#     category_id: Optional[int] = None
 class ProductUpdate(BaseModel):
     name: Optional[str] = None
     description: Optional[str] = None
@@ -36,7 +33,6 @@ class Product(ProductBase):
         from_attributes = True  # For Pydantic v2
 
 class ProductDetail(Product):
-    # category: Optional[Category] = None
     # total_inventory: int = 0
     # stock_status: str = "Unknown"
     # suppliers: Optional[List[Dict[str, Any]]] = None

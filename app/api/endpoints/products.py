@@ -14,7 +14,6 @@ def get_products(
     skip: int = 0,
     limit: int = 100,
     name: Optional[str] = None,
-    category_id: Optional[int] = None,
     is_active: bool = True
 ):
     """
@@ -23,15 +22,12 @@ def get_products(
     - **skip**: Number of products to skip (pagination)
     - **limit**: Maximum number of products to return
     - **name**: Optional filter by product name (partial match)
-    - **category_id**: Optional filter by category ID
     - **is_active**: Filter by active status
     """
     query = db.query(product_models.Product)
     
     if name:
         query = query.filter(product_models.Product.name.ilike(f"%{name}%"))
-    if category_id:
-        query = query.filter(product_models.Product.category_id == category_id)
     if is_active is not None:
         query = query.filter(product_models.Product.is_active == is_active)
     
@@ -108,7 +104,6 @@ def update_product(
     - **price**: New product price
     - **weight**: New product weight
     - **dimensions**: New product dimensions
-    - **category_id**: New category ID
     - **is_active**: New active status
     """
     db_product = db.query(product_models.Product).filter(
