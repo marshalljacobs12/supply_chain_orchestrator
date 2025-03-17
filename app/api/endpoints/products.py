@@ -5,7 +5,6 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models import product as product_models
 from app.schemas import product as product_schemas
-# from app.services import inventory_service
 
 router = APIRouter()
 
@@ -53,7 +52,6 @@ def create_product(
     - **price**: Product price
     - **weight**: Optional product weight
     - **dimensions**: Optional product dimensions as JSON string
-    - **category_id**: Optional category ID
     - **is_active**: Whether the product is active (default: true)
     """
     # Check if product with same SKU already exists
@@ -65,7 +63,6 @@ def create_product(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Product with SKU {product.sku} already exists"
         )
-    
     # Create new product
     db_product = product_models.Product(**product.dict())
     db.add(db_product)
@@ -91,16 +88,8 @@ def get_product(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Product not found"
         )
-    
-    # Enhance the response with inventory information
-    product_detail = product_schemas.ProductDetail.from_orm(db_product)
-    # WAIT TILL ADDING INVENTORY_SERVICE
-    # product_detail.total_inventory = inventory_service.get_total_inventory(db, product_id)
-    # product_detail.stock_status = inventory_service.get_stock_status(db, product_id)
-    
-    # GET SUPPLIER INFORMATION (LIMITED INFO FOR SECURITY)
 
-    return product_detail
+    return db_product
 
 @router.put("/{product_id}", response_model=product_schemas.Product)
 def update_product(
@@ -139,7 +128,6 @@ def update_product(
     db.refresh(db_product)
     return db_product
 
-# ADDING DELETE
 @router.delete("/{product_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_product(
     product_id: int,

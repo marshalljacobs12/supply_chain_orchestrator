@@ -17,12 +17,3 @@ class Product(Base):
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-
-    # Relationships
-    # NOT YET IMPLEMENTED
-    # category = relationship("Category", back_populates="products")
-    # inventory_items = relationship("InventoryItem", back_populates="product")
-    # suppliers = relationship("ProductSupplier", back_populates="product")
-    # order_items = relationship("OrderItem", back_populates="product")
-
-# NEED CATEGORY

@@ -14,11 +14,6 @@ class ProductBase(BaseModel):
     dimensions: Optional[str] = None  # JSON string
     is_active: bool = True
 
-
-# NOT SURE WHAT THIS WOULD BE USED FOR
-class ProductCreate(ProductBase):
-    pass
-
 #     category_id: Optional[int] = None
 class ProductUpdate(BaseModel):
     name: Optional[str] = None
@@ -28,21 +23,24 @@ class ProductUpdate(BaseModel):
     dimensions: Optional[str] = None
     is_active: Optional[bool] = None
 
+class ProductCreate(ProductBase):
+    pass
 
 class Product(ProductBase):
     id: int
     created_at: datetime
     updated_at: Optional[datetime] = None
-
+    
     class Config:
-        orm_mode = True
+        orm_mode = True  # For Pydantic v1
+        from_attributes = True  # For Pydantic v2
 
-# ommitted param
-# category: Optional[Category] = None
 class ProductDetail(Product):
-    total_inventory: int = 0
-    stock_status: str = "Unknown"
-    suppliers: Optional[List[Dict[str, Any]]] = None
-
+    # category: Optional[Category] = None
+    # total_inventory: int = 0
+    # stock_status: str = "Unknown"
+    # suppliers: Optional[List[Dict[str, Any]]] = None
+    
     class Config:
-        orm_mode = True
+        orm_mode = True  # For Pydantic v1
+        from_attributes = True  # For Pydantic v2
